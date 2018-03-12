@@ -12,11 +12,10 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
-import com.anhdxy.picturegallery.activity.MultiSelectPictureActivity
 import com.anhdxy.picturegallery.activity.REQUEST_CODE
 import com.anhdxy.picturegallery.activity.RESULT_DATA
-import com.tbruyelle.rxpermissions2.RxPermissions
-import io.reactivex.Observable
+import com.tbruyelle.rxpermissions.RxPermissions
+import rx.Observable
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -39,7 +38,8 @@ class PictureUtils private constructor(context: Activity) {
     }
 
     fun getImages(): Observable<HashMap<String, ArrayList<String>>> {
-        return RxPermissions(mContext)
+        return RxPermissions
+                .getInstance(mContext)
                 .request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .map<HashMap<String, ArrayList<String>>> {
                     if (it) {

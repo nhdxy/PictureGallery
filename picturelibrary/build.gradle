@@ -31,7 +31,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
-    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
+    implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
     implementation 'io.reactivex:rxandroid:1.2.1'
     implementation 'io.reactivex:rxjava:1.2.7'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
