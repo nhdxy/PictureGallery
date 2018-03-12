@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">PictureGallery</string>
+    <string name="app_select_picture_title">选择图片</string>
+    <string name="app_select_picture_finish">完成</string>
+    <string name="app_select_picture_parent_name">所有图片</string>
+    <string name="app_show_pictures_current_size">0/0</string>
+    <string name="app_empty_layout_text">您的相册空空如也</string>
+</resources>
