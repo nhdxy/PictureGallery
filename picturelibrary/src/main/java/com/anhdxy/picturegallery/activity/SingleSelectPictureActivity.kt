@@ -26,6 +26,7 @@ class SingleSelectPictureActivity : AppCompatActivity() {
     private lateinit var imagesMap: HashMap<String, ArrayList<String>>
     private lateinit var parentAdapter: ParentDirecAdapter
     private lateinit var parentDatas: ArrayList<ParentDirecBean>
+    private lateinit var currentPath: String
 
     companion object {
         /**
@@ -73,7 +74,8 @@ class SingleSelectPictureActivity : AppCompatActivity() {
         recycler_view.layoutManager = GridLayoutManager(this, 3)
         recycler_view.adapter = adapter
         adapter.setOnItemClickListener {
-            PictureUtils.getInstance(this).startPhotoZoom(imagesMap[key]!![it])
+            currentPath = imagesMap[key]!![it]
+            PictureUtils.getInstance(this).startPhotoZoom(currentPath)
         }
     }
 
@@ -102,9 +104,10 @@ class SingleSelectPictureActivity : AppCompatActivity() {
         PictureUtils.getInstance(this).apply {
             val onCameraResult = onCameraResult(requestCode, resultCode)
             if (onCameraResult.isNotEmpty()) {
+                currentPath = onCameraResult
                 startPhotoZoom(onCameraResult)
             }
-            val onClipResult = onClipResult(requestCode, resultCode)
+            val onClipResult = onClipResult(requestCode, resultCode, currentPath)
             if (onClipResult.isNotEmpty()) {
                 val intent = Intent()
                 intent.putExtra(RESULT_DATA, arrayListOf(onClipResult))

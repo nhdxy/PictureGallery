@@ -205,7 +205,7 @@ class PictureUtils private constructor(context: Activity) {
         intent.putExtra("outputX", 600)
         intent.putExtra("outputY", 600)
         //这边必须使用的Uri.fromFile而不是FileProvider
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getCropPath()))
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getCropPath(path)))
         intent.putExtra("return-data", false)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -216,9 +216,9 @@ class PictureUtils private constructor(context: Activity) {
         mContext.startActivityForResult(intent, 0x020)
     }
 
-    fun onClipResult(requestCode: Int, resultCode: Int): String {
+    fun onClipResult(requestCode: Int, resultCode: Int,currentPath: String): String {
         if (requestCode == 0x020 && resultCode == -1) {
-            return getCropPath().absolutePath
+            return getCropPath(currentPath).absolutePath
         } else if (requestCode == 0x020 && resultCode == 0) {
             mContext.toast("您取消了裁剪")
             return ""
@@ -227,7 +227,8 @@ class PictureUtils private constructor(context: Activity) {
         }
     }
 
-    private fun getCropPath(): File {
-        return File(mAppImagesDir(), "small.jpg")
+    private fun getCropPath(currentPath: String): File {
+        val name = File(currentPath).name
+        return File(mAppImagesDir(), "crop_$name")
     }
 }
