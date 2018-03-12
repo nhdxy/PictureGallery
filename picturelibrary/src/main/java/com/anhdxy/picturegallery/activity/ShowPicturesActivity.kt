@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.anhdxy.picturegallery.R
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.github.chrisbanes.photoview.PhotoView
 import kotlinx.android.synthetic.main.app_activity_show_pictures.*
 
@@ -51,7 +50,7 @@ class ShowPicturesActivity : AppCompatActivity() {
                 imageView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 imageView.scaleType = ImageView.ScaleType.FIT_CENTER
                 if (i == position) {
-                    Glide.with(this@ShowPicturesActivity).load(paths[i]).apply(RequestOptions().fitCenter()).into(imageView)
+                    Glide.with(this@ShowPicturesActivity).load(paths[i]).fitCenter().into(imageView)
                 }
                 imageViews.add(imageView)
             }
@@ -76,7 +75,7 @@ class ShowPicturesActivity : AppCompatActivity() {
                 }
 
                 override fun onPageSelected(position: Int) {
-                    Glide.with(this@ShowPicturesActivity).load(paths[position]).apply(RequestOptions().fitCenter()).into(imageViews[position])
+                    Glide.with(this@ShowPicturesActivity).load(paths[position]).fitCenter().into(imageViews[position])
                     tv_back.text = "${position + 1} / ${paths.size}"
                 }
             })

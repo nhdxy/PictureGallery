@@ -10,7 +10,6 @@ import android.widget.TextView
 import com.anhdxy.picturegallery.R
 import com.anhdxy.picturegallery.bean.ParentDirecBean
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 
 /**
  * Created by Andrnhd on 2018/3/9.
@@ -28,7 +27,7 @@ class ParentDirecAdapter(context: Context, mDatas: ArrayList<ParentDirecBean>) :
 
     override fun onBindViewHolder(holder: ParentDirecAdapter.ParentDirecViewHolder, position: Int) {
         val item = mDatas[position]
-        Glide.with(context).load(item.firstPicture).apply(RequestOptions().centerCrop()).into(holder.iv_picture)
+        Glide.with(context).load(item.firstPicture).centerCrop().into(holder.iv_picture)
         holder.tv_name.text = item.parentName
         holder.tv_picture_size.text = "${item.pictureSize}"
         holder.itemView.setOnClickListener { listener?.invoke(position) }

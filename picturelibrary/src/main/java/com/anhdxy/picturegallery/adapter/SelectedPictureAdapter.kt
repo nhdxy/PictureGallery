@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.anhdxy.picturegallery.R
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 
 /**
  * Created by Andrnhd on 2018/3/9.
@@ -25,7 +24,7 @@ class SelectedPictureAdapter(context: Context, mDatas: ArrayList<String>) : Recy
     override fun getItemCount(): Int = mDatas.size
 
     override fun onBindViewHolder(holder: SelectedPictureViewHolder, position: Int) {
-        Glide.with(context).load(mDatas[position]).apply(RequestOptions().centerCrop()).into(holder.iv_image)
+        Glide.with(context).load(mDatas[position]).centerCrop().into(holder.iv_image)
         holder.itemView.setOnClickListener { listener?.invoke(position) }
     }
 

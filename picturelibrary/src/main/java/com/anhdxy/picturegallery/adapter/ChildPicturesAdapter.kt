@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.anhdxy.picturegallery.R
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 
 /**
  * Created by Andrnhd on 2018/3/9.
@@ -37,7 +36,7 @@ class ChildPicturesAdapter(context: Activity, mDatas: ArrayList<String>, isSingl
 
     override
     fun onBindViewHolder(holder: ChildPicturesViewHolder, position: Int) {
-        Glide.with(context).load(mDatas[position]).apply(RequestOptions().centerCrop()).into(holder.iv_picture)
+        Glide.with(context).load(mDatas[position]).centerCrop().into(holder.iv_picture)
         if (isSingle) {
             holder.iv_add.visibility = View.GONE
         } else {
