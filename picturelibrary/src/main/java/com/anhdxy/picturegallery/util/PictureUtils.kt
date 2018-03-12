@@ -31,8 +31,6 @@ class PictureUtils private constructor(context: Activity) {
     private val IMAGE_SELECTION_ARGS = arrayOf("image/jpeg", "image/png")
     private var mContext: Activity = context
 
-    var authorty: String? = null
-
     companion object {
         fun getInstance(context: Activity): PictureUtils {
             return PictureUtils(context)
@@ -115,10 +113,7 @@ class PictureUtils private constructor(context: Activity) {
 
     private fun getUri(image: File): Uri {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            if (authorty == null) {
-                throw NullPointerException("Authorty can not be null")
-            }
-            return FileProvider.getUriForFile(mContext, authorty, image)
+            return FileProvider.getUriForFile(mContext, "${mContext.packageName}.fileprovider", image)
         } else {
             return Uri.fromFile(image)
         }
