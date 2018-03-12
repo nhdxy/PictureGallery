@@ -31,7 +31,7 @@ class PictureUtils private constructor(context: Activity) {
     private val IMAGE_SELECTION_ARGS = arrayOf("image/jpeg", "image/png")
     private var mContext: Activity = context
 
-    var authorty: String = "com.anhdxy.picturegallery.fileprovider"
+    var authorty: String? = null
 
     companion object {
         fun getInstance(context: Activity): PictureUtils {
@@ -115,6 +115,9 @@ class PictureUtils private constructor(context: Activity) {
 
     private fun getUri(image: File): Uri {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (authorty == null) {
+                throw NullPointerException("Authorty can not be null")
+            }
             return FileProvider.getUriForFile(mContext, authorty, image)
         } else {
             return Uri.fromFile(image)
@@ -218,7 +221,7 @@ class PictureUtils private constructor(context: Activity) {
         mContext.startActivityForResult(intent, 0x020)
     }
 
-    fun onClipResult(requestCode: Int, resultCode: Int,currentPath: String): String {
+    fun onClipResult(requestCode: Int, resultCode: Int, currentPath: String): String {
         if (requestCode == 0x020 && resultCode == -1) {
             return getCropPath(currentPath).absolutePath
         } else if (requestCode == 0x020 && resultCode == 0) {
