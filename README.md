@@ -22,3 +22,9 @@ Anhdxy
     .setSelectType(SelectType.MULTI)
     .choose()
 ```
+##### 4、获取返回结果
+```Java
+val obtainResult = Anhdxy.obtainResult(requestCode, resultCode, data) //在onActivityResult中调用当前方法，返回
+ 的结果是一个不为null的列表，只需根据列表的size判断就可以了
+```
+ 
