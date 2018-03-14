@@ -26,6 +26,7 @@ class SingleSelectPictureActivity : AppCompatActivity() {
     private lateinit var imagesMap: HashMap<String, ArrayList<String>>
     private lateinit var parentAdapter: ParentDirecAdapter
     private lateinit var parentDatas: ArrayList<ParentDirecBean>
+    private var isCrop = true
     private var currentPath: String?=null
 
     companion object {
@@ -33,8 +34,9 @@ class SingleSelectPictureActivity : AppCompatActivity() {
          * 跳转选择图片界面（请求码为0x102）
          * 返回类型为ArrayList<String>
          */
-        fun openActivity(activity: AppCompatActivity) {
+        fun openActivity(activity: AppCompatActivity,isCrop:Boolean) {
             val intent = Intent(activity, SingleSelectPictureActivity::class.java)
+            intent.putExtra("isCrop",isCrop)
             activity.startActivityForResult(intent, REQUEST_CODE)
         }
     }
@@ -42,6 +44,9 @@ class SingleSelectPictureActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.app_activity_single_select_picture)
+        if (intent != null) {
+            isCrop = intent.getBooleanExtra("isCrop",true)
+        }
         PictureUtils.getInstance(this).getImages().subscribe {
             if (it.isEmpty()) {
                 recycler_view.visibility = View.GONE
@@ -75,7 +80,14 @@ class SingleSelectPictureActivity : AppCompatActivity() {
         recycler_view.adapter = adapter
         adapter.setOnItemClickListener {
             currentPath = imagesMap[key]!![it]
-            PictureUtils.getInstance(this).startPhotoZoom(currentPath!!)
+            if (isCrop) {
+                PictureUtils.getInstance(this).startPhotoZoom(currentPath!!)
+            } else {
+                val intent = Intent()
+                intent.putExtra(RESULT_DATA, arrayListOf(currentPath))
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
         }
     }
 
@@ -105,7 +117,14 @@ class SingleSelectPictureActivity : AppCompatActivity() {
             val onCameraResult = onCameraResult(requestCode, resultCode)
             if (onCameraResult.isNotEmpty()) {
                 currentPath = onCameraResult
-                startPhotoZoom(onCameraResult)
+                if (isCrop) {
+                    startPhotoZoom(onCameraResult)
+                } else {
+                    val intent = Intent()
+                    intent.putExtra(RESULT_DATA, arrayListOf(currentPath))
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
+                }
             }
             if (currentPath != null) {
                 val onClipResult = onClipResult(requestCode, resultCode, currentPath!!)
